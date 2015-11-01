@@ -5,10 +5,11 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <pthread.h>
- 
+
 #define BUF_SIZE 100
 #define NAME_SIZE 20
- 
+#define PORT_NUM 9190
+
 void * send_msg(void * arg);
 void * recv_msg(void * arg);
 void error_handling(char * msg);
@@ -22,18 +23,14 @@ int main(int argc, char *argv[])
       struct sockaddr_in serv_addr;
        pthread_t snd_thread, rcv_thread;
         void * thread_return;
-         if(argc!=4) {
-               printf("Usage : %s <IP> <port> <name>\n", argv[0]);
-                 exit(1);
-                   }
-          
-          sprintf(name, "[%s]", argv[3]);
+
+          sprintf(name, "[%s]", argv[1]);
            sock=socket(PF_INET, SOCK_STREAM, 0);
             
             memset(&serv_addr, 0, sizeof(serv_addr));
              serv_addr.sin_family=AF_INET;
-              serv_addr.sin_addr.s_addr=inet_addr(argv[1]);
-               serv_addr.sin_port=htons(atoi(argv[2]));
+              serv_addr.sin_addr.s_addr=inet_addr("127.0.0.1");
+               serv_addr.sin_port=htons(PORT_NUM);
                  
                 if(connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr))==-1)
                       error_handling("connect() error");
