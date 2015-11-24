@@ -80,17 +80,47 @@ void *send_message(void *arg){
         char sub2_buf[MAX_BUF];
         char sub_buf[MAX_BUF];
         int len;
+        char optionbuf[MAX_BUF];
+        char optionbuf_sub[MAX_BUF];
         memset(buf,0,MAX_BUF);
         while(1)
         {
             fgets(sub_buf, MAX_BUF,stdin);
-            /*
-               if(!strcmp(sub_buf,"fuck\n")||!strcmp(sub_buf,"FUCK\n"))
+            
+               if(!strcmp(sub_buf,"clear\n"))
                {
-               close(sock);
-               exit(0);
-               } 
-             */
+                   system("clear");
+                   printf("옵션 발동. [청소하기]\n");
+               }
+               else if(!strcmp(sub_buf,"ls\n"))
+               {
+                   system("ls -l");
+                   printf("옵션 발동. [파일보기]\n");
+               }
+               else if(!strcmp(sub_buf,"rm\n"))
+               {
+                   printf("옵션 발동. [파일 삭제] 삭제할 파일 명을 입력하시오.\n");
+                   fgets(optionbuf, MAX_BUF, stdin);
+                   sprintf(optionbuf_sub, "rm -ri %s", optionbuf);
+                   system(optionbuf_sub);
+               }
+               else if(!strcmp(sub_buf,"mkdir\n"))
+               {
+                   printf("옵션 발동. [파일 생성] 생성할 파일 명을 입력하시오.\n");
+                   fgets(optionbuf, MAX_BUF, stdin);
+                   sprintf(optionbuf_sub, "mkdir -p %s", optionbuf);
+                   system(optionbuf_sub);
+               }
+               else if(!strcmp(sub_buf,"cat\n"))
+               {
+                   printf("옵션 발동. [파일 읽기] 읽을 파일 명을 입력하시오.\n");
+                   fgets(optionbuf, MAX_BUF, stdin);
+                   sprintf(optionbuf_sub, "cat %s", optionbuf);
+                   system(optionbuf_sub);
+               }
+            memset(optionbuf_sub,0,MAX_BUF);
+            memset(optionbuf,0,MAX_BUF);
+
             if(sub_buf[0]!='\n'){
             strcpy(sub2_buf,get_name);
             sprintf(buf, "%s %s", sub2_buf, sub_buf);
