@@ -118,18 +118,26 @@ void *send_message(void *arg){
                    sprintf(optionbuf_sub, "cat %s", optionbuf);
                    system(optionbuf_sub);
                }
-            memset(optionbuf_sub,0,MAX_BUF);
-            memset(optionbuf,0,MAX_BUF);
+               else if(!strcmp(sub_buf,"sudo apt-get install\n"))
+               {
+                   printf("옵션 발동. [패키지 설치] 설치할 패키지 명을 입력하시오.\n");
+                       fgets(optionbuf, MAX_BUF, stdin);
+                   sprintf(optionbuf_sub, "sudo apt-get install %s", optionbuf);
+                   system(optionbuf_sub);
+               }
 
-            if(sub_buf[0]!='\n'){
-            strcpy(sub2_buf,get_name);
-            sprintf(buf, "%s %s", sub2_buf, sub_buf);
-            len=strlen(buf);
-            if(send(sock,buf,len,0)!=len){
-                fprintf(stderr,"send failed\n");
-                exit(1);
-            }
-        }
+               memset(optionbuf_sub,0,MAX_BUF);
+               memset(optionbuf,0,MAX_BUF);
+
+               if(sub_buf[0]!='\n'){
+                   strcpy(sub2_buf,get_name);
+                   sprintf(buf, "%s %s", sub2_buf, sub_buf);
+                   len=strlen(buf);
+                   if(send(sock,buf,len,0)!=len){
+                       fprintf(stderr,"send failed\n");
+                       exit(1);
+                   }
+               }
         }
 }
 
