@@ -87,38 +87,38 @@ void *send_message(void *arg){
         {
             fgets(sub_buf, MAX_BUF,stdin);
             
-               if(!strcmp(sub_buf,"clear\n"))
+               if(!strcmp(sub_buf,"---clear\n"))
                {
                    system("clear");
                    printf("옵션 발동. [청소하기]\n");
                }
-               else if(!strcmp(sub_buf,"ls\n"))
+               else if(!strcmp(sub_buf,"---ls\n"))
                {
                    system("ls -l");
                    printf("옵션 발동. [파일보기]\n");
                }
-               else if(!strcmp(sub_buf,"rm\n"))
+               else if(!strcmp(sub_buf,"---rm\n"))
                {
                    printf("옵션 발동. [파일 삭제] 삭제할 파일 명을 입력하시오.\n");
                    fgets(optionbuf, MAX_BUF, stdin);
                    sprintf(optionbuf_sub, "rm -ri %s", optionbuf);
                    system(optionbuf_sub);
                }
-               else if(!strcmp(sub_buf,"mkdir\n"))
+               else if(!strcmp(sub_buf,"---mkdir\n"))
                {
                    printf("옵션 발동. [파일 생성] 생성할 파일 명을 입력하시오.\n");
                    fgets(optionbuf, MAX_BUF, stdin);
                    sprintf(optionbuf_sub, "mkdir -p %s", optionbuf);
                    system(optionbuf_sub);
                }
-               else if(!strcmp(sub_buf,"cat\n"))
+               else if(!strcmp(sub_buf,"---cat\n"))
                {
                    printf("옵션 발동. [파일 읽기] 읽을 파일 명을 입력하시오.\n");
                    fgets(optionbuf, MAX_BUF, stdin);
                    sprintf(optionbuf_sub, "cat %s", optionbuf);
                    system(optionbuf_sub);
                }
-               else if(!strcmp(sub_buf,"sudo apt-get install\n"))
+               else if(!strcmp(sub_buf,"---sudo apt-get install\n"))
                {
                    printf("옵션 발동. [패키지 설치] 설치할 패키지 명을 입력하시오.\n");
                        fgets(optionbuf, MAX_BUF, stdin);
