@@ -1,3 +1,4 @@
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -10,6 +11,18 @@
 
 #define PORT 5050
 #define MAX_BUF 100
+/*
+typedef struct _Data {
+    GtkWidget *window1;//frame
+    GtkWidget *window2;//frame
+    GtkWidget *window3;//frame
+    GtkWidget *button;//romm button
+    GtkWidget *button1;
+    GtkWidget *entry;// 대화명
+    GtkWidget *entry1;// 입력
+    GtkWidget *textview;//textview
+}Data;
+*/
 
 char get_name[MAX_BUF];
 static int sock;
@@ -17,8 +30,22 @@ void all_connect();//접속
 void *receive(void *arg);//메세지 수신 쓰레드
 void *send_message(void *arg);//메시지 전송
 void error_handling(char *messasge);
-void first_connect(int port){
 
+
+G_MODULE_EXPORT void
+quit1(GtkWidget *window,gpointer data){
+        gtk_widget_destroy(window);
+}
+G_MODULE_EXPORT void
+quit2(GtkWidget *window,gpointer data){
+            gtk_widget_destroy(window);
+}
+G_MODULE_EXPORT void
+quit3(GtkWidget *window,gpointer data){
+            gtk_widget_destroy(window);
+}
+
+void first_connect(int port){
     struct sockaddr_in serv_addr;
     if((sock=socket(AF_INET,SOCK_STREAM,0))==-1){
         error_handling("socket() error");
@@ -225,6 +252,38 @@ void Room(int get_port){
 }
 
 int main(int argc,char *argv[]){
+    /*
+    GtkBuilder *builder;
+    Data *data;
+    gtk_init(&argc,&argv);
+    builder=gtk_builder_new();
+    gtk_builder_add_from_file(builder,"client.glade",NULL);
+    data=g_slice_new(Data);
+    data->window1 = GTK_WIDGET(gtk_builder_get_object(builder,"window1"));//fram
+    data->window2 = GTK_WIDGET(gtk_builder_get_object(builder,"window2"));//fram
+    data->window3 = GTK_WIDGET(gtk_builder_get_object(builder,"window3"));//fram
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button2"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button3"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button4"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button5"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button6"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button7"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button8"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button9"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button10"));//room
+    data->button = GTK_WIDGET(gtk_builder_get_object(builder,"button11"));//room
+    data->entry1 = GTK_WIDGET(gtk_builder_get_object(builder,"entry1"));//대화명
+    data->entry2 = GTK_WIDGET(gtk_builder_get_object(builder,"entry2"));//내용입
+    data->textview1 = GTK_WIDGET(gtk_builder_get_object(builder,"textview1"));//
+    data->button1 =GTK_WIDGET(gtk_builder_get_object(builder,"button1"));//login
+    data->button12 =GTK_WIDGET(gtk_builder_get_object(builder,"button12"));//전>
+    gtk_builder_connect_signals(builder,data);
+    g_object_unref(G_OBJECT(builder));
+    gtk_widget_show_all(data->window1);
+    gtk_main();
+    g_slice_free(Data,data);
+*/
+
     int first_port;
     int port;
     if(argc!=2){

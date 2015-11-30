@@ -16,8 +16,14 @@
 #define MAX_BUF 100
 #define TRUE 1
 #define FALSE 0
-
-
+/*
+typedef struct _Data {
+    GtkWidget *window1;//frame
+    GtkWidget *button1;//
+    GtkWidget *entry1;// 입력
+    GtkWidget *textview1;//textview
+}Data;
+*/
 void *first_receive(void *arg);//첫번째 
 void error_handling(char *message);//에러처리
 
@@ -61,6 +67,13 @@ int clnt_sock_num6=0;
 int clnt_sock_num7=0;
 int clnt_sock_num8=0;
 int clnt_sock_num9=0;
+
+/*
+G_MODULE_EXPORT void
+quit1(GtkWidget *window,gpointer data){
+    gtk_widget_destroy(window);
+}
+*/
 
 
 void setnonblockingmode(int sock)//넌 블럭
@@ -791,9 +804,27 @@ void kakaotalk_Room(){
             clnt_sock_num9=clnt_sock_num9+1;
         }
         	}
-	
+
 }
 int main(int argc, char *argv[]){
+/*
+    GtkBuilder *builder;
+    Data *data;
+    gtk_init(&argc,&argv);
+    builder=gtk_builder_new();
+    gtk_builder_add_from_file(builder,"server.glade",NULL);
+    data=g_slice_new(Data);
+    data->window1 = GTK_WIDGET(gtk_builder_get_object(builder,"window1"));//fram
+    data->button1 = GTK_WIDGET(gtk_builder_get_object(builder,"button1"));//
+    data->entry1 = GTK_WIDGET(gtk_builder_get_object(builder,"entry1"));//대화명
+    data->textview1 = GTK_WIDGET(gtk_builder_get_object(builder,"textview1"));//내용
+    gtk_builder_connect_signals(builder,data);
+    g_object_unref(G_OBJECT(builder));
+    gtk_widget_show_all(data->window1);
+    gtk_main();
+    g_slice_free(Data,data);
+*/
+
 	int serv_sock;
 	struct sockaddr_in serv_addr;
 	struct sockaddr_in clnt_addr;
