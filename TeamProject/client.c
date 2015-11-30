@@ -92,10 +92,37 @@ void *send_message(void *arg){
                    system("clear");
                    printf("옵션 발동. [청소하기]\n");
                }
+               else if(!strcmp(sub_buf,"---pwd\n"))
+               {
+                   system("pwd");
+                   printf("옵션 발동. [경로출력]\n");
+               }
+
+               else if(!strcmp(sub_buf,"---df\n"))
+               {
+                   system("df");
+                   printf("옵션 발동. [디스크용량]\n");
+               }
+
+               else if(!strcmp(sub_buf,"---du\n"))
+               {
+                   system("du");
+                   printf("옵션 발동. [디스크사용공간]\n");
+               }
+               else if(!strcmp(sub_buf,"---ps\n"))
+               {
+                   system("ps");
+                   printf("옵션 발동. [프로세스확인]\n");
+               }
                else if(!strcmp(sub_buf,"---ls\n"))
                {
                    system("ls -l");
                    printf("옵션 발동. [파일보기]\n");
+               }
+               else if(!strcmp(sub_buf,"---ifconfig\n"))
+               {
+                   system("ifconfig");
+                   printf("옵션 발동. [네트워크확인]\n");
                }
                else if(!strcmp(sub_buf,"---rm\n"))
                {
