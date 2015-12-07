@@ -11,9 +11,9 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 
-#define PORT_NUM 5050
-#define BACKLOG 20
-#define MAX_BUF 100
+#define PORT_NUM 5050//포트 번호
+#define BACKLOG 20//연결 요청 대기 큐의 크기
+#define MAX_BUF 100//버퍼 크기
 #define TRUE 1
 #define FALSE 0
 /*
@@ -24,8 +24,8 @@ typedef struct _Data {
     GtkWidget *textview1;//textview
 }Data;
 */
-void *first_receive(void *arg);//첫번째 
-void error_handling(char *message);//에러처리
+void *first_receive(void *arg);//첫번째 연결
+void error_handling(char *message);//에러처리 함수
 
 void *receive_1room(void *arg);//방 쓰레드 함수
 void *receive_2room(void *arg);
@@ -38,7 +38,7 @@ void *receive_8room(void *arg);
 void *receive_9room(void *arg);
 void *receive_10room(void *arg);
 
-void send_1room(char *msg);
+void send_1room(char *msg);//받은 메세지를 보내는 함수
 void send_2room(char *msg);
 void send_3room(char *msg);
 void send_4room(char *msg);
@@ -52,12 +52,12 @@ void send_10room(char *msg);
 void setnonblockingmode(int sock);//넌블럭
 void kakaotalk_Room();//방
 
-pthread_mutex_t mutx;
-static int serv_clnt_sock[MAX_BUF];
-static int clnt_sock[10][MAX_BUF];
+pthread_mutex_t mutx;//뮤텍스
+static int serv_clnt_sock[MAX_BUF];//서버 소켓
+static int clnt_sock[10][MAX_BUF];//연결된 소켓을 저장하기 위한 배열
 int clnt_serv_num=0;
 
-int clnt_sock_num=0;
+int clnt_sock_num=0;//연결 요청 대기큐에서 만들어질 클라이언트 소켓
 int clnt_sock_num1=0;
 int clnt_sock_num2=0;
 int clnt_sock_num3=0;
@@ -78,8 +78,8 @@ quit1(GtkWidget *window,gpointer data){
 
 void setnonblockingmode(int sock)//넌 블럭
 {
-    int flag=fcntl(sock, F_GETFL, 0);
-    fcntl(sock, F_SETFL, flag|O_NONBLOCK);
+    int flag=fcntl(sock, F_GETFL, 0);//소켓의 옵션을 얻음
+    fcntl(sock, F_SETFL, flag|O_NONBLOCK);//소켓의 옵션을 변경
 }
 
 void *first_receive(void *arg){//접속
@@ -87,32 +87,32 @@ void *first_receive(void *arg){//접속
 	int i;
 	int check;
 	while(1){
-	        memset(buf,0,MAX_BUF);
+	        memset(buf,0,MAX_BUF);//버퍼 초기화
 		i=0;
 		while(i<=clnt_serv_num+1){
-			check=recv(serv_clnt_sock[i],buf,MAX_BUF,0);
-			setnonblockingmode(serv_clnt_sock[i]);
+			check=recv(serv_clnt_sock[i],buf,MAX_BUF,0);//메세지 받음
+			setnonblockingmode(serv_clnt_sock[i]);//넌 블럭
 			if(check==-1){
 				i++;
-				continue;
+				continue;//메세지를 잘못 받으면 다음 것을 받기 위한 continue문
 			}
-			else if(buf[0]!=0){
+			else if(buf[0]!=0){//버퍼가 비어있지 않으면 다음 소켓으로 감
 				i++;
 				}
 		}
 	}
 }
-void *receive_1room(void *arg){//1
+void *receive_1room(void *arg){//첫번째 방
 	
 	char buf[MAX_BUF];
 	int i;
     int check;
     while(1){
-        memset(buf,0,MAX_BUF);
+        memset(buf,0,MAX_BUF);//버퍼 비움
         i=0;
         while(i<=clnt_sock_num+1){
-            check=recv(clnt_sock[0][i],buf,MAX_BUF,0);
-            setnonblockingmode(clnt_sock[0][i]);
+            check=recv(clnt_sock[0][i],buf,MAX_BUF,0);//클라이언트로부터 메세지를 받음
+            setnonblockingmode(clnt_sock[0][i]);//넌 블럭
 			if(check==-1){
 				i++;
 				continue;
@@ -355,27 +355,27 @@ void *receive_10room(void *arg){//10
         }
     }
 }
-void send_1room(char* msg){//1
+void send_1room(char* msg){//받은 메세지를 보내는 함수
 
-	char buf[MAX_BUF];
+	char buf[MAX_BUF];//버퍼
 
 	int len;
 	int i=0;
 	
-	memset(buf,0,MAX_BUF);
-	strcpy(buf,msg);
+	memset(buf,0,MAX_BUF);//버퍼 초기화
+	strcpy(buf,msg);//받은 메세지를 버퍼배열에 복사
 	
 	len=strlen(buf);
-	pthread_mutex_lock(&mutx);
+	pthread_mutex_lock(&mutx);//동기화 시작
 		for(i=0;i<clnt_sock_num;i++){
-			if(send(clnt_sock[0][i],buf,len,0)!=len){
+			if(send(clnt_sock[0][i],buf,len,0)!=len){//전송
 				fprintf(stderr,"실패");
 			}
 			else{ 
-			printf("%d 번째의 연결자에게 전송했습니다.\n",i+1);
+			printf("%d 번째의 연결자에게 전송했습니다.\n",i+1);//터미널에 보여줌
 			}
 		}
-    pthread_mutex_unlock(&mutx);
+    pthread_mutex_unlock(&mutx);//동기화 끝
 }
 void send_2room(char* msg){//2
 
@@ -580,12 +580,12 @@ void send_10room(char* msg){//10
     }
     pthread_mutex_unlock(&mutx);
 }
-void kakaotalk_Room(){
+void kakaotalk_Room(){//카카오톡방
     int option;
     socklen_t optlen;
-    int serv_sock[10];
+    int serv_sock[10];//서버 소켓
 
-	int status=-1;
+	int status=-1;//쓰레드
 	int status1=-1;
 	int status2=-1;
 	int status3=-1;
@@ -615,7 +615,7 @@ void kakaotalk_Room(){
     pthread_t tid9;
 
     optlen=sizeof(option);
-    option=TRUE;
+    option=TRUE;//옵션 변경
 
     for(count=0;count<=10;count++){	
         if((serv_sock[count]=socket(AF_INET,SOCK_STREAM,0))==-1){
@@ -625,15 +625,15 @@ void kakaotalk_Room(){
         //타임 웨이트room
         memset(&serv_addr,0,sizeof(serv_addr));
         serv_addr.sin_family=AF_INET;
-        serv_addr.sin_port=htons(PORT_NUM+(count+1)*10);
-        serv_addr.sin_addr.s_addr=INADDR_ANY;
+        serv_addr.sin_port=htons(PORT_NUM+(count+1)*10);//소켓 포트번호 설정
+        serv_addr.sin_addr.s_addr=INADDR_ANY;//자신의 아이피 주소로 초기화
 
 	if(bind(serv_sock[count],(struct sockaddr *)&serv_addr, sizeof(struct sockaddr))==-1){	
-        error_handling("bind() error");
+        error_handling("bind() error");//저장된 주소로 설정
 			}
 	
 
-	if(listen(serv_sock[count],BACKLOG)==-1){
+	if(listen(serv_sock[count],BACKLOG)==-1){//연결 대기 요청 큐를 만들어 대기함
         error_handling("listen() error");
 			
 	}}
@@ -653,7 +653,7 @@ void kakaotalk_Room(){
         clnt_adr_sz= sizeof(struct sockaddr_in);
 
        
-		setnonblockingmode(serv_sock[0]);
+		setnonblockingmode(serv_sock[0]);//넌블럭
 		setnonblockingmode(serv_sock[1]);
 		setnonblockingmode(serv_sock[2]);
 		setnonblockingmode(serv_sock[3]);
@@ -730,10 +730,10 @@ void kakaotalk_Room(){
         pthread_detach(tid9);
         
         if(clnt_sock1!=-1){
-                    pthread_mutex_lock(&mutx);
-			clnt_sock[0][clnt_sock_num]=clnt_sock1;
-                    pthread_mutex_unlock(&mutx);
- 	     		clnt_sock_num=clnt_sock_num+1;
+                    pthread_mutex_lock(&mutx);//동기화 시작
+			clnt_sock[0][clnt_sock_num]=clnt_sock1;//새로 만든 클라이언트 소켓을 새로운 배열에 저장
+                    pthread_mutex_unlock(&mutx);//동기화 끝
+ 	     		clnt_sock_num=clnt_sock_num+1;//그 다음 소켓을 저장하기 위함
 		}
 		if(clnt_sock2!=-1){
 			                      
@@ -842,7 +842,7 @@ int main(int argc, char *argv[]){
     optlen=sizeof(option);
     option=TRUE;
     setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, (void*)&option, optlen);
-    //타임 웨이트 first
+    //타임 웨이트 first 강건성 처리
 	memset(&serv_addr,0,sizeof(serv_addr));
 	serv_addr.sin_family=AF_INET;
 	serv_addr.sin_port=htons(PORT_NUM);
@@ -857,7 +857,7 @@ int main(int argc, char *argv[]){
 	if(listen(serv_sock,BACKLOG)==-1){
         error_handling("listen() error");
 	}
-	kakaotalk_Room();
+	kakaotalk_Room();//카카오톡 방 생성
 
 	while(1){
 		clnt_adr_sz= sizeof(struct sockaddr_in);
@@ -868,7 +868,7 @@ int main(int argc, char *argv[]){
 	
  	     		clnt_serv_num=clnt_serv_num+1;
 			if(status!=0)
-				status = pthread_create(&tid,NULL,first_receive,serv_clnt_sock);
+				status = pthread_create(&tid,NULL,first_receive,serv_clnt_sock);//쓰레드 생성
         pthread_detach(tid);
 
 		}
@@ -877,7 +877,7 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
-void error_handling(char *message)//에러처리
+void error_handling(char *message)//에러처리 함수
 {
     fputs(message, stderr);
     fputc('\n', stderr);

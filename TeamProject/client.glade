@@ -93,6 +93,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="name" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -136,6 +137,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -149,6 +151,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -162,6 +165,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -175,6 +179,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -188,6 +193,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -201,6 +207,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -214,6 +221,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -227,6 +235,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -240,6 +249,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -253,6 +263,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="kakao_room" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -265,9 +276,13 @@
   </object>
   <object class="GtkWindow" id="window3">
     <property name="can_focus">False</property>
+    <property name="window_position">center</property>
+    <property name="default_width">540</property>
+    <property name="default_height">500</property>
     <signal name="destroy" handler="quit3" swapped="no"/>
     <child>
       <object class="GtkBox" id="box5">
+        <property name="height_request">4</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
@@ -442,15 +457,15 @@
         </child>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow1">
+            <property name="height_request">100</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="margin_bottom">178</property>
             <property name="shadow_type">in</property>
             <child>
               <object class="GtkTextView" id="textview1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="margin_bottom">214</property>
+                <property name="editable">False</property>
               </object>
             </child>
           </object>
@@ -493,6 +508,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="send_message" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
